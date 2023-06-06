@@ -21,7 +21,7 @@ type getRentalRequest struct {
 	ID int32 `uri:"id" binding:"required,min=1"`
 }
 
-type listAccountRequest struct {
+type listRentalsRequest struct {
 	Offset   int32 `form:"offset"`
 	Limit int32 `form:"limit"`
 	IDs string `form:"ids"`
@@ -47,7 +47,7 @@ func (s *Server) GetRental(ctx *gin.Context) {
 }
 
 func (s *Server) GetRentals(ctx *gin.Context) {
-var req listAccountRequest
+var req listRentalsRequest
 	if err := ctx.ShouldBindQuery(&req); err != nil {
 		ctx.JSON(http.StatusBadRequest, errorResponse(err))
 		return
