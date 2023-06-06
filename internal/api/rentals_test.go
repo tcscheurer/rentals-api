@@ -1,19 +1,15 @@
 package api
 
 import (
-	// "bytes"
 	"database/sql"
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
 	"net/http"
 	"net/http/httptest"
-	// "strconv"
 	"testing"
 
-	// "github.com/golang/mock/gomock"
 	"github.com/stretchr/testify/require"
-	// mockdb "github.com/tcscheurer/rentals/db/mock"
 	"github.com/tcscheurer/rentals/db/sqlc"
 	"github.com/tcscheurer/rentals/internal/models"
 	"github.com/tcscheurer/rentals/utils"
