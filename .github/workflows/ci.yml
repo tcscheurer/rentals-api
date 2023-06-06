@@ -1,0 +1,21 @@
+---
+name: ci
+on: [push]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    env:
+      AUTH_TOKEN: $${{secrets.token}}
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          token: $${{env.AUTH_TOKEN}}
+      - uses: actions/setup-go@v2
+        with:
+          go-version: '1.19'
+      - name: spin up compose db
+        run: make db-up
+      - name: run tests
+        run: make test
+      - name: spin down compose db
+        run: docker-compose down
