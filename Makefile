@@ -1,11 +1,8 @@
 local-up:
 	docker-compose up -d && go run ./cmd/api/main.go
 
-local-down:
-	docker-compose down
-
-test:
-	go test -v -cover ./...
+db-up:
+	docker-compose up -d
 
 db-generate:
 	sqlc generate
@@ -19,6 +16,6 @@ mock-db-gen:
 test:
 	go test ./... -v
 
-.PHONY: local-up local-down test db-generate local-server test 
+.PHONY: local-up db-up test db-generate local-server test 
 
 

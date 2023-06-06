@@ -13,9 +13,9 @@ import (
 )
 
 const getRentalByID = `-- name: GetRentalByID :one
-select rentals.id, user_id, name, type, description, sleeps, price_per_day, home_city, home_state, home_zip, home_country, vehicle_make, vehicle_model, vehicle_year, vehicle_length, created, updated, lat, lng, primary_image_url, users.id, first_name, last_name from rentals
-join users on rentals.user_id = users.id
-where rentals.id = $1
+SELECT rentals.id, user_id, name, type, description, sleeps, price_per_day, home_city, home_state, home_zip, home_country, vehicle_make, vehicle_model, vehicle_year, vehicle_length, created, updated, lat, lng, primary_image_url, users.id, first_name, last_name FROM rentals
+JOIN users ON rentals.user_id = users.id
+WHERE rentals.id = $1
 `
 
 type GetRentalByIDRow struct {
@@ -76,38 +76,35 @@ func (q *Queries) GetRentalByID(ctx context.Context, id int32) (GetRentalByIDRow
 }
 
 const getRentals = `-- name: GetRentals :many
-select rentals.id, user_id, name, type, description, sleeps, price_per_day, home_city, home_state, home_zip, home_country, vehicle_make, vehicle_model, vehicle_year, vehicle_length, created, updated, lat, lng, primary_image_url, users.id, first_name, last_name from rentals 
-join users on rentals.user_id = users.id
-where
-
-CASE 
-WHEN $3::bool
-THEN 
-    rentals.id = ANY($4::int[]) and
-    price_per_day >= $5::integer and
-    price_per_day <= $6::integer
-ELSE
-    price_per_day >= $5::integer and
-    price_per_day <= $6::integer
-END
-
-and
-CASE
-WHEN $7::bool
-THEN
-    ST_DistanceSphere(ST_MakePoint(rentals.lng,rentals.lat), ST_MakePoint($8::double precision,$9::double precision)) <= 100 * 1609.34
-ELSE
-    rentals.id is not null
-END
-
-order by
-CASE 
-WHEN $10::bool
-THEN
-    rentals.price_per_day
-ELSE
-    rentals.id
-END
+SELECT rentals.id, user_id, name, type, description, sleeps, price_per_day, home_city, home_state, home_zip, home_country, vehicle_make, vehicle_model, vehicle_year, vehicle_length, created, updated, lat, lng, primary_image_url, users.id, first_name, last_name FROM rentals 
+JOIN users ON rentals.user_id = users.id
+WHERE
+    CASE 
+    WHEN $3::bool
+    THEN 
+        rentals.id = ANY($4::int[]) AND
+        price_per_day >= $5::integer AND
+        price_per_day <= $6::integer
+    ELSE
+        price_per_day >= $5::integer AND
+        price_per_day <= $6::integer
+    END
+AND
+    CASE
+    WHEN $7::bool
+    THEN
+        ST_DistanceSphere(ST_MakePoint(rentals.lng,rentals.lat), ST_MakePoint($8::double precision,$9::double precision)) <= 100 * 1609.34
+    ELSE
+        rentals.id is not null
+    END
+ORDER BY
+    CASE 
+    WHEN $10::bool
+    THEN
+        rentals.price_per_day
+    ELSE
+        rentals.id
+    END
 LIMIT $1
 OFFSET $2
 `

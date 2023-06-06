@@ -56,9 +56,13 @@ Example rental response:
 
 ## Running Locally 
 `make local-up`
+This is a helper for running `docker-compose up -d && go run ./cmd/api/main.go`
 
-## Kiling Locally
-`make local-down`
+Other commands are provided for managing the runtime of the db and service independently
+
 
 ## Testing
-`make test`
+Test are set up to connect to the local containerized db and assert based on the APIs interactions with the seeded data
+`make db-up` (wrapper for `docker-compose up -d`)
+and then,
+`make test` (wrapper for `go test ./... -v`)
