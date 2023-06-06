@@ -62,7 +62,7 @@ Other commands are provided for managing the runtime of the db and service indep
 
 
 ## Testing
-Test are set up to connect to the local containerized db and assert based on the APIs interactions with the seeded data
+Test are set up to connect to the local containerized db and assert based on the APIs interactions with the seeded data: 
 `make db-up` (wrapper for `docker-compose up -d`)
 and then,
 `make test` (wrapper for `go test ./... -v`)
