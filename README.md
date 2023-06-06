@@ -1,6 +1,5 @@
 ## Rentals API
 An API for returning rental and user information!
-_Definitely a work in progress, and needs sufficient testing_
 
 Supports two endpoints:
 - GET /rentals/:id
